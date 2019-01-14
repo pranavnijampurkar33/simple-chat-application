@@ -16,5 +16,16 @@ console.log("Listening at 3000");
 const io = require("socket.io")(server)
 //listem on every collection
 io.on('connection',(socket)=> {
-    console.log('New User  connected');
+    console.log('New User connected');
+
+    //default username
+    socket.username = "Anonymous";
+
+    //listen on change_username
+    socket.on('change_username',(data) => {
+        socket.username = data.username;
+    })
+    socket.on('new_message',(data) => {
+        io.sockets.emit('new_message',{message : data.message, username : socket.username});
+    })
 });
