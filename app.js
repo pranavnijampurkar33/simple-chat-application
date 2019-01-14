@@ -7,7 +7,14 @@ app.set('view engine','ejs');
 //middlewares
 app.use(express.static('public'));
 app.get('/',(req,res) => {
-    res.send("Hi There");
+    res.render('index');
 });
-app.listen(3000);
+server = app.listen(3000);
 console.log("Listening at 3000");
+
+//socket.io instantiation
+const io = require("socket.io")(server)
+//listem on every collection
+io.on('connection',(socket)=> {
+    console.log('New User  connected');
+});
